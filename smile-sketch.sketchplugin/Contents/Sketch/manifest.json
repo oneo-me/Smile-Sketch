@@ -1,0 +1,63 @@
+{
+    "name": "Smile Sketch",
+    "version": "1.0.0",
+    "description": "Sketch资源导出、图层排序、图层校准插件",
+    "homepage": "http://github.com/1217950746/Smile-Sketch",
+    "author": "ONEO",
+    "authorEmail": "1217950746@qq.com",
+    "identifier": "oneo.smile-sketch",
+    "commands": [
+        {
+            "script": "script.js",
+            "handlers": {
+                "actions": {
+                    "DocumentSaved": "onDocumentSaved"
+                }
+            }
+        },
+        {
+            "name": "导出全部",
+            "shortcut": "shift cmd d",
+            "identifier": "exportAll",
+            "handler": "exportAll",
+            "script": "script.js"
+        },
+        {
+            "name": "导入全部",
+            "shortcut": "shift cmd c",
+            "identifier": "importAll",
+            "handler": "importAll",
+            "script": "script.js"
+        },
+        {
+            "name": "文档排序",
+            "shortcut": "shift cmd f",
+            "identifier": "sorting",
+            "handler": "sorting",
+            "script": "script.js"
+        },
+        {
+            "name": "微博",
+            "identifier": "linkWeibo",
+            "handler": "linkWeibo",
+            "script": "script.js"
+        },
+        {
+            "name": "Github",
+            "identifier": "linkGithub",
+            "handler": "linkGithub",
+            "script": "script.js"
+        }
+    ],
+    "menu": {
+        "title": "Smile Sketch",
+        "items": [
+            "exportAll",
+            "importAll",
+            "sorting",
+            "-",
+            "linkWeibo",
+            "linkGithub"
+        ]
+    }
+}
