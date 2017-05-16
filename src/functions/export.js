@@ -52,7 +52,7 @@ LS.export = function () {
             slice.configureForLayer(MSImmutableLayerAncestry.ancestryWithMSLayer(layer))
         }
         // 裁切导出
-        slice.shouldTrim = layer.exportOptionsGeneric().shouldTrim()
+        slice.shouldTrim = layer.exportOptions().shouldTrim()
         LS.document.saveArtboardOrSlice_toFile(slice, path)
     }
     // 查找需要导出的图层
@@ -93,7 +93,7 @@ LS.export = function () {
                         break
                 }
             } else if (className == "MSSliceLayer") {
-                layer.exportOptionsGeneric().exportFormats().forEach(format => {
+                layer.exportOptions().exportFormats().forEach(format => {
                     exportMSSliceLayer(outPathRoot, layer, format)
                 })
             }
