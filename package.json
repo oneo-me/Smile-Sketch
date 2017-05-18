@@ -30,12 +30,8 @@
             "name": "-"
         },
         {
-            "name": "微博",
-            "handler": "linkWeibo"
-        },
-        {
-            "name": "Github",
-            "handler": "linkGithub"
+            "name": "官方网站",
+            "handler": "linkSite"
         }
     ],
     "devDependencies": {
