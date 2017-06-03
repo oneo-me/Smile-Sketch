@@ -459,7 +459,7 @@ LS.sorting = function () {
                 // 排序换组
                 if (n == items[i].items.length - 1) {
                     startLeft = 0
-                    startTop += maxHeight + args.space * 2
+                    startTop += maxHeight + (args.space * 2 < 200 ? 200 : args.space * 2)
                     maxHeight = 0
                 }
             }
