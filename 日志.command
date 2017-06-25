@@ -1,1 +1,0 @@
-open "/Users/oneo/Library/Logs/com.bohemiancoding.sketch3/Plugin Output.log"
