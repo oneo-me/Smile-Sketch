@@ -1,16 +1,21 @@
-function importAll(context) {
-    LS.init(context)
-    LS.import()
+function Import(context) {
+    SS.Init(context)
+    SS.Import()
 }
 
-function exportAll(context) {
-    LS.init(context)
-    LS.import()
-    LS.export()
+function Export(context) {
+    SS.Init(context)
+    SS.Import()
+    SS.Export()
 }
 
-function sorting(context) {
-    LS.init(context)
-    LS.correct()
-    LS.sorting()
+function Sort(context) {
+    SS.Init(context)
+    SS.Correct()
+    SS.Sort()
+}
+
+function PageSort(context) {
+    SS.Init(context)
+    SS.PageSort()
 }

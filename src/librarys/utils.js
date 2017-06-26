@@ -1,4 +1,3 @@
-// 是否是画板
-function isArtboard(layer) {
+function IsArtboard(layer) {
     return layer.className() == "MSSymbolMaster" || layer.className() == "MSArtboardGroup"
 }

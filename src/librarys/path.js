@@ -1,49 +1,61 @@
-// 文件是否存在
-function fileExists(path) {
-    if (NSFileManager.defaultManager().fileExistsAtPath(path)) {
+var Path = {}
+
+Path.Join = function (path1, path2) {
+    if (path2.indexOf("/") != 0) {
+        if (path1.indexOf("/") == path1.length - 1) {
+            return path1 + path2
+        }
+        if (path2 == "") {
+            return path1
+        }
+        return path1 + "/" + path2
+    }
+    return path2
+}
+
+Path.FileExists = function (file) {
+    if (NSFileManager.defaultManager().fileExistsAtPath(file)) {
         var isDir = MOPointer.alloc().init()
-        NSFileManager.defaultManager().fileExistsAtPath_isDirectory(path, isDir)
+        NSFileManager.defaultManager().fileExistsAtPath_isDirectory(file, isDir)
         return isDir.value() != 1
     }
     return false
 }
-// 文件夹是否存在
-function dirExists(path) {
-    if (NSFileManager.defaultManager().fileExistsAtPath(path)) {
+
+Path.DirExists = function (dir) {
+    if (NSFileManager.defaultManager().fileExistsAtPath(dir)) {
         var isDir = MOPointer.alloc().init()
-        NSFileManager.defaultManager().fileExistsAtPath_isDirectory(path, isDir)
+        NSFileManager.defaultManager().fileExistsAtPath_isDirectory(dir, isDir)
         return isDir.value() == 1
     }
     return false
 }
-// 获取扩展名
-function extName(path) {
-    return path.split(".").slice(-1)[0].toLowerCase()
+
+Path.Ext = function (file) {
+    return file.split(".").slice(-1)[0].toLowerCase()
 }
-// 是否是图片
-function isImage(path) {
-    switch (extName(path)) {
-        case "png":
+
+Path.IsImageExt = function (file) {
+    switch (Path.Ext(file)) {
         case "bmp":
+        case "eps":
         case "gif":
         case "jpg":
         case "jpeg":
-        case "tiff":
-        case "eps":
-        case "svg":
-        case "psd":
         case "pdf":
-        case "ai":
-        case "eps":
+        case "png":
+        case "psd":
+        case "tiff":
+        case "webp":
             return true
         default:
             return false
     }
 }
-// 创建文件夹
-function mkdirs(path) {
-    if (!fileExists(path) && !dirExists(path)) {
-        NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error(path, true, nil, nil)
+
+Path.MkDirs = function (dir) {
+    if (!Path.FileExists(dir) && !Path.DirExists(dir)) {
+        NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error(dir, true, nil, nil)
         return true
     }
     return false

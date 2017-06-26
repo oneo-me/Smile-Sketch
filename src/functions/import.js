@@ -1,38 +1,47 @@
-LS.import = function () {
-    // 获取绝对路径
+SS.Import = function () {
+
+    var configs = SS.Configs()
+
+    SS.Pages.forEach(page => {
+        page.children().forEach(layer => {
+            if (layer.name().indexOf(configs.ImportFlag) == 0) {
+                switch (String(layer.className())) {
+                    case "MSTextLayer":
+                        importText(layer)
+                        break
+                    case "MSShapeGroup":
+                        importImageToShape(layer)
+                        break
+                    case "MSBitmapLayer":
+                        importImageToBitmap(layer)
+                        break
+                }
+            }
+        })
+    })
+
     function getPath(layer) {
-        var path = layer.name().replace(configs.flagI, "")
-        if (path.indexOf("/") != 0) {
-            path = LS.documentRoot + "/" + path
-        }
-        return path
+        return Path.Join(SS.DocRoot, layer.name().replace(configs.ImportFlag, ""))
     }
-    // 导入文本
-    function importMSTextLayer(layer) {
-        var path = getPath(layer)
-        if (fileExists(path)) {
+
+    function importText(layer) {
+        var file = getPath(layer)
+        if (Path.FileExists(file)) {
             try {
-                layer.stringValue = NSString.stringWithContentsOfFile_encoding_error(path, NSUTF8StringEncoding, null)
+                layer.stringValue = NSString.stringWithContentsOfFile_encoding_error(file, NSUTF8StringEncoding, null)
             }
             catch (error) {
                 layer.stringValue = "文件错误"
             }
-        }
-        else {
+        } else {
             layer.stringValue = "文件不存在"
         }
     }
-    // 加载图片数据
-    function loadImageData(path) {
-        return MSImageData.alloc().initWithImage_convertColorSpace(NSImage.alloc().initWithContentsOfFile(path), false)
-    }
-    // 设置图片数据
-    function setImageLayerData(layer, path) {
-        LS.document.actionsController().actionForID("MSReplaceImageAction").applyImage_tolayer(NSImage.alloc().initWithContentsOfFile(path), layer)
-    }
-    // 导入图形
-    function importMSShapeGroup(layer) {
-        var path = getPath(layer)
+
+    function importImageToShape(layer) {
+        var file = getPath(layer)
+
+        // 设置 Fill
         var fills = layer.style().fills()
         if (fills.count() <= 0) {
             layer.style().addStylePartOfType(0)
@@ -40,55 +49,50 @@ LS.import = function () {
         var fill = fills.firstObject()
         fill.setFillType(4)
         fill.setPatternFillType(2)
-        if (fileExists(path)) {
-            if (isImage(path)) {
-                fill.setImage(loadImageData(path))
+
+        // 设置图片
+        if (Path.FileExists(file)) {
+            if (Path.IsImageExt(file)) {
+                fill.setImage(loadImageData(file))
             }
             else {
-                fill.setImage(loadImageData(LS.resourcesRoot + "/error1.png"))
+                fill.setImage(loadImageData(Path.Join(SS.Resources, "error1.png")))
             }
-        }
-        else {
-            fill.setImage(loadImageData(LS.resourcesRoot + "/error2.png"))
+        } else {
+            fill.setImage(loadImageData(Path.Join(SS.Resources, "error2.png")))
         }
     }
-    // 导入图片
-    function importMSBitmapLayer(layer) {
-        var path = getPath(layer)
+
+    function importImageToBitmap(layer) {
+        var file = getPath(layer)
+
+        // 图层参数
         var constrainProportions = layer.constrainProportions()
         var size = [layer.frame().width(), layer.frame().height()]
         layer.constrainProportions = 0
-        if (fileExists(path)) {
-            if (isImage(path)) {
-                setImageLayerData(layer, path)
+
+        if (Path.FileExists(file)) {
+            if (Path.IsImageExt(file)) {
+                setImageLayerData(layer, file)
             }
             else {
-                setImageLayerData(layer, LS.resourcesRoot + "/error1.png")
+                setImageLayerData(layer, Path.Join(SS.Resources, "error1.png"))
             }
+        } else {
+            setImageLayerData(layer, Path.Join(SS.Resources, "error2.png"))
         }
-        else {
-            setImageLayerData(layer, LS.resourcesRoot + "/error2.png")
-        }
+
+        // 还原图层参数
         layer.frame().setWidth(size[0])
         layer.frame().setHeight(size[1])
         layer.constrainProportions = constrainProportions
     }
-    // 查找需要导入的图层
-    LS.pages.forEach(page => {
-        page.children().forEach(layer => {
-            if (layer.name().indexOf(configs.flagI) == 0) {
-                switch (String(layer.className())) {
-                    case "MSTextLayer":
-                        importMSTextLayer(layer)
-                        break
-                    case "MSShapeGroup":
-                        importMSShapeGroup(layer)
-                        break
-                    case "MSBitmapLayer":
-                        importMSBitmapLayer(layer)
-                        break
-                }
-            }
-        })
-    })
+
+    function loadImageData(file) {
+        return MSImageData.alloc().initWithImage_convertColorSpace(NSImage.alloc().initWithContentsOfFile(file), false)
+    }
+
+    function setImageLayerData(layer, file) {
+        SS.Doc.actionsController().actionForID("MSReplaceImageAction").applyImage_tolayer(NSImage.alloc().initWithContentsOfFile(file), layer)
+    }
 }

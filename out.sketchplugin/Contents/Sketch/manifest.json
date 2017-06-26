@@ -1,6 +1,6 @@
 {
     "name": "Smile Sketch",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Sketch资源导出、图层排序、图层校准插件",
     "homepage": "http://github.com/1217950746/Smile-Sketch",
     "author": "ONEO",
@@ -11,46 +11,61 @@
             "script": "script.js",
             "handlers": {
                 "actions": {
-                    "DocumentSaved": "onDocumentSaved"
+                    "DocumentSaved": "DocumentSaved"
                 }
             }
         },
         {
-            "name": "导出全部",
-            "shortcut": "shift cmd d",
-            "identifier": "exportAll",
-            "handler": "exportAll",
+            "name": "导出",
+            "shortcut": "ctrl shift e",
+            "identifier": "Export",
+            "handler": "Export",
             "script": "script.js"
         },
         {
-            "name": "导入全部",
-            "shortcut": "shift cmd c",
-            "identifier": "importAll",
-            "handler": "importAll",
+            "name": "导入",
+            "shortcut": "ctrl shift d",
+            "identifier": "Import",
+            "handler": "Import",
             "script": "script.js"
         },
         {
-            "name": "文档排序",
-            "shortcut": "shift cmd f",
-            "identifier": "sorting",
-            "handler": "sorting",
+            "name": "画板排序",
+            "shortcut": "ctrl shift a",
+            "identifier": "Sort",
+            "handler": "Sort",
             "script": "script.js"
         },
         {
-            "name": "官方网站",
-            "identifier": "linkSite",
-            "handler": "linkSite",
+            "name": "页面排序",
+            "shortcut": "ctrl shift p",
+            "identifier": "PageSort",
+            "handler": "PageSort",
+            "script": "script.js"
+        },
+        {
+            "name": "Github",
+            "identifier": "LinkGithub",
+            "handler": "LinkGithub",
+            "script": "script.js"
+        },
+        {
+            "name": "反馈",
+            "identifier": "LinkFeedback",
+            "handler": "LinkFeedback",
             "script": "script.js"
         }
     ],
     "menu": {
         "title": "Smile Sketch",
         "items": [
-            "exportAll",
-            "importAll",
-            "sorting",
+            "Export",
+            "Import",
+            "Sort",
+            "PageSort",
             "-",
-            "linkSite"
+            "LinkGithub",
+            "LinkFeedback"
         ]
     }
 }
