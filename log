@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cd ~/Library/Logs/com.bohemiancoding.sketch3 && open "Plugin Output.log"
