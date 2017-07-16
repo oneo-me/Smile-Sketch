@@ -3,6 +3,12 @@
 
 文档快速整理排序，资源导入与导出
 
+## 安装
+- [下载插件](https://github.com/1217950746/Smile-Sketch/archive/master.zip)
+- 解压后，双击 **smile-sketch.sketchplugin** 安装插件
+
+> 然后你就可以查看示例文件来了解插件了
+
 ## 预览图
 ![菜单](previews/1.png)
 ![设置](previews/2.png)
