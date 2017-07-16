@@ -65,7 +65,7 @@ function SortPage(context, document, page) {
                 if (String(a.name()) == String(b.name())) {
                     return a.frame().width() * a.frame().height() > b.frame().width() * b.frame().height() ? -1 : 1
                 } else {
-                    return a.name().localeCompare(b.name())
+                    return b.name().localeCompare(a.name())
                 }
             }
             return 0
