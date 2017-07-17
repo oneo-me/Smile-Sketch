@@ -1,9 +1,9 @@
 var Path = {
     // 获取相对文档的路径
-    // 如果path是绝对路径则直接返回
+    // 导入和导出的入口路径
     GetPath: (document, path) => {
         var root = document.fileURL().path().stringByDeletingLastPathComponent()
-        return Path.Join(root, path)
+        return Path.Join(root, path.replace("~/", NSHomeDirectory() + "/"))
     },
     GetContent: (context, path) => {
         var root = context.plugin.url().path()
