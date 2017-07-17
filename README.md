@@ -10,7 +10,11 @@
 - 打开 **smile-sketch.sketchplugin** 安装插件
 
 ## 预览
+
 **菜单栏**
+
 ![菜单](previews/1.png)
+
 **菜单栏**
+
 ![设置界面](previews/2.png)
