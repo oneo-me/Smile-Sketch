@@ -3,7 +3,7 @@ var Path = {
     // 导入和导出的入口路径
     GetPath: (document, path) => {
         var root = document.fileURL().path().stringByDeletingLastPathComponent()
-        return Path.Join(root, path.replace("~/", NSHomeDirectory() + "/"))
+        return Path.Join(root, path)
     },
     GetContent: (context, path) => {
         var root = context.plugin.url().path()
@@ -11,6 +11,8 @@ var Path = {
     },
     // 拼接路径
     Join: (path1, path2) => {
+        path1 = path1.replace("~/", NSHomeDirectory() + "/")
+        path2 = path2.replace("~/", NSHomeDirectory() + "/")
         if (path2 == null || path2 == "") {
             return path1
         }

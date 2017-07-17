@@ -48,8 +48,10 @@ function ExportPage(context, document, page) {
         slice.setFormat(format.fileFormat())
         slice.saveForWeb = true
         // 添加背景
-        if (layer.hasBackgroundColor() && layer.exportOptions().layerOptions() == 0) {
-            slice.backgroundColor = layer.backgroundColor()
+        if (layer.hasBackgroundColor != null) {
+            if (layer.hasBackgroundColor() && layer.exportOptions().layerOptions() == 0) {
+                slice.backgroundColor = layer.backgroundColor()
+            }
         }
         // 导出当前组
         if (layer.exportOptions().layerOptions() == 2) {
@@ -87,4 +89,9 @@ function Export(context) {
         ExportPage(context, document, page)
     })
     document.setCurrentPage(currentPage)
+}
+
+function ExportCurrentPage(context) {
+    var document = context.document || context.actionContext.document
+    ExportPage(context, document, document.currentPage())
 }
