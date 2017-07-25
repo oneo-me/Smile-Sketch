@@ -50,6 +50,8 @@ function ExportPage(context, document, page) {
         // 添加背景
         if (layer.hasBackgroundColor != null) {
             if (layer.hasBackgroundColor() && layer.exportOptions().layerOptions() == 0) {
+                // BUG：导出Svg时，无法设置背景
+                // 目前未找到解决办法
                 slice.backgroundColor = layer.backgroundColor()
             }
         }
