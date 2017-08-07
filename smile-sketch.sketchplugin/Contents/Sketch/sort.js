@@ -48,7 +48,7 @@ function SortPage(context, document, page) {
     {
         if (configs.canRestoreSymbol) {
             page.children().forEach(layer => {
-                if (layer.className() == "MSSymbolInstance" && layer.name().indexOf("@") != 0) {
+                if (layer.className() == "MSSymbolInstance" && layer.name().indexOf("@ ") != 0) {
                     layer.name = layer.symbolMaster().name()
                 }
             })

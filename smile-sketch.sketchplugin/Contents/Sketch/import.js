@@ -82,8 +82,8 @@ function ImportPage(context, document, page) {
 
     // 查找需要导入的内容
     page.children().forEach(layer => {
-        if (layer.name().indexOf("@ ") == 0) {
-            var file = Path.GetPath(document, layer.name().replace("@ ", ""))
+        if (layer.name().indexOf("import ") == 0) {
+            var file = Path.GetPath(document, layer.name().replace("import ", ""))
             switch (String(layer.className())) {
                 case "MSTextLayer":
                     importText(layer, file)
