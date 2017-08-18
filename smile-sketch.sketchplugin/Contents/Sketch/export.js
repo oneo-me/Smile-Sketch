@@ -55,8 +55,13 @@ function ExportPage(context, document, page) {
                 slice.backgroundColor = layer.backgroundColor()
             }
         }
+
         // 导出当前组
-        if (layer.exportOptions().layerOptions() == 2) {
+        if (layer.className() == "MSSliceLayer") {
+            if (layer.exportOptions().layerOptions() == 2) {
+                slice.configureForLayer(MSImmutableLayerAncestry.ancestryWithMSLayer(layer))
+            }
+        } else {
             slice.configureForLayer(MSImmutableLayerAncestry.ancestryWithMSLayer(layer))
         }
         // 裁切
@@ -74,13 +79,16 @@ function ExportPage(context, document, page) {
     // 查找需要导出的内容
     page.children().forEach(layer => {
         var exportPath = Path.GetPath(document, configs.exportPath)
+
+        // 检查文本是否需要导出
         if (layer.className() == "MSTextLayer" && layer.name().indexOf("export ") == 0) {
             exportText(exportPath, layer)
-        } else {
-            layer.exportOptions().exportFormats().forEach(format => {
-                exportSlice(exportPath, layer, format, configs.canOptimize)
-            })
         }
+
+        // 导出切片
+        layer.exportOptions().exportFormats().forEach(format => {
+            exportSlice(exportPath, layer, format, configs.canOptimize)
+        })
     })
 }
 
