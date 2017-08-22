@@ -33,15 +33,15 @@ function ImportPage(context, document, page) {
         // 设置图片
         if (Path.FileExists(file)) {
             if (Path.IsImageExt(file)) {
-                fill.setPatternFillType(2)
+                // fill.setPatternFillType(2)
                 fill.setImage(loadImageData(file))
             }
             else {
-                fill.setPatternFillType(1)
+                // fill.setPatternFillType(1)
                 fill.setImage(loadImageData(Path.GetContent(context, "Resources/error.png")))
             }
         } else {
-            fill.setPatternFillType(1)
+            // fill.setPatternFillType(1)
             fill.setImage(loadImageData(Path.GetContent(context, "Resources/error.png")))
         }
     }
