@@ -1,5 +1,4 @@
 @import "utils/path.js"
-@import "utils/command.js"
 @import "setting.js"
 @import "import.js"
 
@@ -26,7 +25,7 @@ function ExportPage(context, document, page) {
     }
 
     // 导出切片
-    function exportSlice(exportPath, layer, format, optimize) {
+    function exportSlice(exportPath, layer, format) {
         // 获取导出路径
         var file = exportPath
         var path = layer.name().stringByDeletingLastPathComponent()
@@ -69,11 +68,6 @@ function ExportPage(context, document, page) {
 
         // 导出
         document.saveArtboardOrSlice_toFile(slice, file)
-
-        // 优化
-        if (optimize) {
-            Command(Path.GetContent(context, "MacOS/optimize"), [file])
-        }
     }
 
     // 查找需要导出的内容
@@ -87,7 +81,7 @@ function ExportPage(context, document, page) {
 
         // 导出切片
         layer.exportOptions().exportFormats().forEach(format => {
-            exportSlice(exportPath, layer, format, configs.canOptimize)
+            exportSlice(exportPath, layer, format)
         })
     })
 }
@@ -99,9 +93,4 @@ function Export(context) {
         ExportPage(context, document, page)
     })
     document.setCurrentPage(currentPage)
-}
-
-function ExportCurrentPage(context) {
-    var document = context.document || context.actionContext.document
-    ExportPage(context, document, document.currentPage())
 }

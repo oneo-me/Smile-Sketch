@@ -15,8 +15,8 @@
 
 ### 菜单栏
 
-![菜单](previews/1.jpg)
+![菜单](previews/1.png)
 
 ### 设置界面
 
-![设置界面](previews/2.jpg)
+![设置界面](previews/2.png)

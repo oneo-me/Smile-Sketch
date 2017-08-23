@@ -1,12 +1,3 @@
-// 保存时排序当前页面
-// context.actionContext.document
-// 点击时排序全部页面
-// context.document
-
-// 排序流程
-// 修复错误的位置
-// 
-
 @import "utils/sketch.js"
 @import "setting.js"
 @import "import.js"
@@ -58,85 +49,88 @@ function SortPage(context, document, page) {
     // 图层列表排序
     {
         page.layers().sort((b, a) => {
+            // 普通图层在上边
             if (!IsArtboard(a) && IsArtboard(b)) {
                 return -1
+            } else if (IsArtboard(a) && !IsArtboard(b)) {
+                return 1
             }
-            if (IsArtboard(a) && IsArtboard(b)) {
-                if (String(a.name()) == String(b.name())) {
-                    return a.frame().width() * a.frame().height() > b.frame().width() * b.frame().height() ? -1 : 1
-                } else {
-                    return b.name().localeCompare(a.name())
-                }
+
+            // 普通画板在上边
+            if (a.name().indexOf("/") == -1 && b.name().indexOf("/") > -1) {
+                return -1
+            } else if (a.name().indexOf("/") > -1 && b.name().indexOf("/") == -1) {
+                return 1
             }
-            return 0
+
+            // 名字一样大的在前边
+            if (String(a.name()) == String(b.name())) {
+                return a.frame().width() * a.frame().height() <= b.frame().width() * b.frame().height()
+            }
+
+            return a.name().localeCompare(b.name())
         })
         document.refreshAfterArtboardDeletion()
     }
 
     // 画板排序
     {
-        // 画板列表
-        var items = []
-
-        // 开始位置
+        var group = ""
         var startTop = 0
+        var top = 0
+        var left = 0
+        var height = 0
+        var column = 0
 
-        // 获取
-        for (var m = page.layers().count(); m > 0; m--) {
-            var layer = page.layers()[m - 1]
-            if (IsArtboard(layer)) {
-                // 获取分组
-                var itemTitle = layer.name().split("/").slice(0, -1).join("/")
-                var isAdd = true
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].title == itemTitle) {
-                        items[i].items.push(layer)
-                        isAdd = false
-                        break
-                    }
-                }
-                if (isAdd) {
-                    items.push({ title: itemTitle, items: [layer] })
-                }
-            } else {
-                // 获取开始位置
+        // 获取开始位置
+        for (var i = page.layers().count() - 1; i >= 0; i--) {
+            var layer = page.layers()[i]
+            if (!IsArtboard(layer)) {
                 var th = layer.absoluteRect().rulerY() + layer.frame().height()
                 if (th > startTop) {
                     startTop = th
                 }
+            } else {
+                break
             }
         }
-
-        // 修正开始位置
         if (startTop > 0) {
             startTop += configs.groupSpace
         }
 
         // 开始排序
-        for (var i = 0; i < items.length; i++) {
-            var startLeft = 0
-            var maxHeight = 0
-            for (var n = 0; n < items[i].items.length; n++) {
-                var layer = items[i].items[n]
-                // 设置当前位置
-                layer.absoluteRect().setRulerX(startLeft)
-                layer.absoluteRect().setRulerY(startTop + configs.space)
-                // 设置下一个的位置
-                startLeft += layer.frame().width() + configs.space
-                if (maxHeight < layer.frame().height()) {
-                    maxHeight = layer.frame().height()
+        for (var i = page.layers().count() - 1; i >= 0; i--) {
+            var layer = page.layers()[i]
+            var layerName = String(layer.name())
+            if (IsArtboard(layer)) {
+                // 换组
+                var layerGroup = layerName.split("/").slice(0, -1).join("/")
+                if (layerGroup == "") {
+                    layerGroup = "defaultGroup - oneo.me"
                 }
-                // 排序换行
-                if ((n + 1) % configs.column == 0) {
-                    startLeft = 0
-                    startTop += maxHeight + configs.space
-                    maxHeight = 0
+                if (layerGroup != group) {
+                    column = 0
+                    top += height + configs.groupSpace
+                    left = 0
                 }
-                // 排序换组
-                if (n == items[i].items.length - 1) {
-                    startLeft = 0
-                    startTop += maxHeight + configs.groupSpace
-                    maxHeight = 0
+                if (group == "") {
+                    top = startTop
+                }
+                group = layerGroup
+
+                // 设置位置
+                layer.absoluteRect().setRulerX(left)
+                layer.absoluteRect().setRulerY(top)
+                height = layer.frame().height() > height ? layer.frame().height() : height
+
+                // 设置下一个的参数
+                if (column + 1 == configs.column) {
+                    column = 0
+                    left = 0
+                    top += height + configs.space
+                } else {
+                    column++
+                    left += layer.frame().width() + configs.space
                 }
             }
         }

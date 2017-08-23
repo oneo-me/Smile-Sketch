@@ -4,7 +4,7 @@
 
 function GetConfigs(context, page) {
     var canAutoSort = Configs.Get("canAutoSort", true) == true
-    var canSortPage = Configs.Get("canSortPage", true) == true
+    var canSortPage = Configs.Get("canSortPage", false) == true
     var canRefreshImport = Configs.Get("canRefreshImport", true) == true
     var canRestoreSymbol = Configs.Get("canRestoreSymbol", true) == true
     var canOptimize = Configs.Get("canOptimize", true) == true
@@ -66,7 +66,6 @@ function Setting(context) {
     var canSortPageUI
     var canRefreshImportUI
     var canRestoreSymbolUI
-    var canOptimizeUI
 
     function Save(global) {
 
@@ -87,7 +86,6 @@ function Setting(context) {
             Configs.Set("canSortPage", canSortPageUI.state() == true)
             Configs.Set("canRefreshImport", canRefreshImportUI.state() == true)
             Configs.Set("canRestoreSymbol", canRestoreSymbolUI.state() == true)
-            Configs.Set("canOptimize", canOptimizeUI.state() == true)
         }
     }
     function Load(global) {
@@ -103,7 +101,6 @@ function Setting(context) {
             canSortPageUI.setState(configs.canSortPage)
             canRefreshImportUI.setState(configs.canRefreshImport)
             canRestoreSymbolUI.setState(configs.canRestoreSymbol)
-            canOptimizeUI.setState(configs.canOptimize)
         }
     }
 
@@ -134,15 +131,14 @@ function Setting(context) {
         window.AddLabel()
         window.AddLabel("全局设置")
         window.AddLabel("与其他文件通用的设置", 0.6)
-        window.AddGroup((16 + 8) * 3 - 8, group => {
+        window.AddGroup((16 + 8) * 2 - 8, group => {
             group.AddGroup(0, 0, 150, subGroup => {
                 canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "排序页面列表", false)
-                canOptimizeUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "优化导出的资源", false)
-                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 2, 150, "保存时排序当前页面", false)
+                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "保存时排序当前页面", false)
             })
             group.AddGroup(150, 0, 150, subGroup => {
-                canRefreshImportUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "排序时刷新导入的内容", false)
-                canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 2, 150, "排序时还原符号名称", false)
+                canRefreshImportUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "排序时刷新导入的内容", false)
+                canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "排序时还原符号名称", false)
             })
         })
 
