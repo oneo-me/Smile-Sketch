@@ -112,6 +112,7 @@ function SortPage(context, document, page) {
                     column = 0
                     top += height + configs.groupSpace
                     left = 0
+                    height = 0
                 }
                 if (group == "") {
                     top = startTop
@@ -128,6 +129,7 @@ function SortPage(context, document, page) {
                     column = 0
                     left = 0
                     top += height + configs.space
+                    height = 0
                 } else {
                     column++
                     left += layer.frame().width() + configs.space
