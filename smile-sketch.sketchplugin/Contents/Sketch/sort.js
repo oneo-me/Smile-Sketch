@@ -54,21 +54,24 @@ function SortPage(context, document, page) {
                 return -1
             } else if (IsArtboard(a) && !IsArtboard(b)) {
                 return 1
-            }
+            } else if (IsArtboard(a) && IsArtboard(b)) {
 
-            // 普通画板在上边
-            if (a.name().indexOf("/") == -1 && b.name().indexOf("/") > -1) {
-                return -1
-            } else if (a.name().indexOf("/") > -1 && b.name().indexOf("/") == -1) {
-                return 1
-            }
+                // 普通画板在上边
+                if (a.name().indexOf("/") == -1 && b.name().indexOf("/") > -1) {
+                    return -1
+                } else if (a.name().indexOf("/") > -1 && b.name().indexOf("/") == -1) {
+                    return 1
+                }
 
-            // 名字一样大的在前边
-            if (String(a.name()) == String(b.name())) {
-                return a.frame().width() * a.frame().height() <= b.frame().width() * b.frame().height()
-            }
+                // 名字一样大的在前边
+                if (String(a.name()) == String(b.name())) {
+                    return a.frame().width() * a.frame().height() <= b.frame().width() * b.frame().height()
+                }
 
-            return a.name().localeCompare(b.name())
+                // 普通画板排序
+                return a.name().localeCompare(b.name())
+            }
+            return 0
         })
         document.refreshAfterArtboardDeletion()
     }
