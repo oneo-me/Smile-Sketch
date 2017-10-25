@@ -72,7 +72,12 @@ function ImportPage(context, document, page) {
 
     // 加载图片
     function loadImageData(file) {
-        return MSImageData.alloc().initWithImage_convertColorSpace(NSImage.alloc().initWithContentsOfFile(file), false)
+        var image = NSImage.alloc().initWithContentsOfFile(file)
+        if (MSApplicationMetadata.metadata().appVersion < 47) {
+            return MSImageData.alloc().initWithImage_convertColorSpace(image, false)
+        } else {
+            return MSImageData.alloc().initWithImage(image)
+        }
     }
 
     // 设置图片
