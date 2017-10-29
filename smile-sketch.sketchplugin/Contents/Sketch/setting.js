@@ -80,7 +80,11 @@ function Setting(context) {
         var groupSpaceNum = Number(groupSpaceUI.stringValue().replace(",", ""))
 
         // 页面名称增加导出路径显示
-        pages[pageIndex].name = pages[pageIndex].name() + " | " + exportPathUI.stringValue()
+        var exportPath = exportPathUI.stringValue()
+        var pageName = String(pages[pageIndex].name())
+        var leftNameIndex = pageName.indexOf(" | ")
+        pageName = pageName.substring(0,leftNameIndex == -1 ? pageName.length : leftNameIndex)
+        pages[pageIndex].name = pageName + (exportPath == "" ? "" : " | " + exportPath)
 
         PageConfigs.Set(context, pages[pageIndex], "exportPath", exportPathUI.stringValue())
 
