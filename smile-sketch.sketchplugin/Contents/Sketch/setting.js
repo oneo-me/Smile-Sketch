@@ -81,11 +81,7 @@ function Setting(context) {
 
         // 页面名称增加导出路径显示
         var exportPath = exportPathUI.stringValue()
-<<<<<<< HEAD
         var pageName = String(pages[pageIndex].name())
-=======
-        var pageName = pages[pageIndex].name()
->>>>>>> f9c7ce1152497ff239c2fedfa036f5fda7536d75
         var leftNameIndex = pageName.indexOf(" | ")
         pageName = pageName.substring(0,leftNameIndex == -1 ? pageName.length : leftNameIndex)
         pages[pageIndex].name = pageName + (exportPath == "" ? "" : " | " + exportPath)
