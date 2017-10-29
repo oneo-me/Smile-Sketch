@@ -46,6 +46,11 @@ function Setting(context) {
     var pageItems = []
     for (var i = 0; i < pages.count(); i++) {
         var name = String(pages[i].name())
+
+        // 获取正确名称
+        var leftNameIndex = name.indexOf(" | ")
+        name = name.substring(0,leftNameIndex == -1 ? name.length : leftNameIndex)
+
         while (pageItems.indexOf(name) == true) {
             name += " "
         }
@@ -74,6 +79,9 @@ function Setting(context) {
         var spaceNum = Number(spaceUI.stringValue().replace(",", ""))
         var groupSpaceNum = Number(groupSpaceUI.stringValue().replace(",", ""))
 
+        // 页面名称增加导出路径显示
+        pages[pageIndex].name = pages[pageIndex].name() + " | " + exportPathUI.stringValue()
+
         PageConfigs.Set(context, pages[pageIndex], "exportPath", exportPathUI.stringValue())
 
         // 限制最大值为999
@@ -88,6 +96,7 @@ function Setting(context) {
             Configs.Set("canRestoreSymbol", canRestoreSymbolUI.state() == true)
         }
     }
+
     function Load(global) {
         var configs = GetConfigs(context, pages[pageIndex])
 
