@@ -23,7 +23,7 @@ function exportSlice(document, exportPath, layer, format) {
         }
     }
     file = Path.Join(file, name + "." + format.fileFormat())
-    
+
     // 设置导出选项
     var slice = MSExportRequest.new()
     slice.rect = layer.absoluteRect().rect()
@@ -56,6 +56,11 @@ function exportSlice(document, exportPath, layer, format) {
     } else {
         slice.shouldTrim = true
         slice.configureForLayer(MSImmutableLayerAncestry.ancestryWithMSLayer(layer))
+    }
+
+    // 不知道 Svg 格式如何添加背景
+    if (format.fileFormat() == "svg") {
+        slice.backgroundColor = null
     }
 
     // 导出
