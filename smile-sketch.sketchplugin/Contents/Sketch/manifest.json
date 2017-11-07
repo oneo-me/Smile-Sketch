@@ -1,10 +1,10 @@
 {
     "name": "Smile Sketch",
-    "version": "1.3.6",
+    "version": "1.4.0",
     "description": "文档快速整理排序，资源导入与导出",
     "homepage": "http://github.com/1217950746/Smile-Sketch",
     "author": "ONEO",
-    "authorEmail": "1217950746@qq.com",
+    "authorEmail": "oneo.me@outlook.com",
     "identifier": "oneo.smile-sketch",
     "commands": [
         {
@@ -16,11 +16,10 @@
             }
         },
         {
-            "name": "刷新",
-            "shortcut": "ctrl shift d",
-            "identifier": "Import",
-            "handler": "Import",
-            "script": "import.js"
+            "name": "导出选择",
+            "identifier": "ExportSelection",
+            "handler": "ExportSelection",
+            "script": "export.js"
         },
         {
             "name": "导出",
@@ -30,7 +29,7 @@
             "script": "export.js"
         },
         {
-            "name": "排序",
+            "name": "整理",
             "shortcut": "ctrl shift s",
             "identifier": "Sort",
             "handler": "Sort",
@@ -54,8 +53,8 @@
     "menu": {
         "title": "Smile Sketch",
         "items": [
+            "ExportSelection",
             "Export",
-            "Import",
             "Sort",
             "-",
             "Setting",

@@ -5,17 +5,13 @@
 function GetConfigs(context, page) {
     var canAutoSort = Configs.Get("canAutoSort", true) == true
     var canSortPage = Configs.Get("canSortPage", false) == true
-    var canRefreshImport = Configs.Get("canRefreshImport", true) == true
     var canRestoreSymbol = Configs.Get("canRestoreSymbol", true) == true
-    var canOptimize = Configs.Get("canOptimize", true) == true
 
     if (page == null) {
         return {
             canAutoSort: canAutoSort,
             canSortPage: canSortPage,
-            canRefreshImport: canRefreshImport,
             canRestoreSymbol: canRestoreSymbol,
-            canOptimize: canOptimize
         }
     }
 
@@ -32,9 +28,7 @@ function GetConfigs(context, page) {
 
         canAutoSort: canAutoSort,
         canSortPage: canSortPage,
-        canRefreshImport: canRefreshImport,
         canRestoreSymbol: canRestoreSymbol,
-        canOptimize: canOptimize
     }
 }
 
@@ -49,7 +43,7 @@ function Setting(context) {
 
         // 获取正确名称
         var leftNameIndex = name.indexOf(" | ")
-        name = name.substring(0,leftNameIndex == -1 ? name.length : leftNameIndex)
+        name = name.substring(0, leftNameIndex == -1 ? name.length : leftNameIndex)
 
         while (pageItems.indexOf(name) == true) {
             name += " "
@@ -69,7 +63,6 @@ function Setting(context) {
 
     var canAutoSortUI
     var canSortPageUI
-    var canRefreshImportUI
     var canRestoreSymbolUI
 
     function Save(global) {
@@ -83,7 +76,7 @@ function Setting(context) {
         var exportPath = exportPathUI.stringValue()
         var pageName = String(pages[pageIndex].name())
         var leftNameIndex = pageName.indexOf(" | ")
-        pageName = pageName.substring(0,leftNameIndex == -1 ? pageName.length : leftNameIndex)
+        pageName = pageName.substring(0, leftNameIndex == -1 ? pageName.length : leftNameIndex)
         pages[pageIndex].name = pageName + (exportPath == "" ? "" : " | " + exportPath)
 
         PageConfigs.Set(context, pages[pageIndex], "exportPath", exportPathUI.stringValue())
@@ -96,7 +89,6 @@ function Setting(context) {
         if (global == true) {
             Configs.Set("canAutoSort", canAutoSortUI.state() == true)
             Configs.Set("canSortPage", canSortPageUI.state() == true)
-            Configs.Set("canRefreshImport", canRefreshImportUI.state() == true)
             Configs.Set("canRestoreSymbol", canRestoreSymbolUI.state() == true)
         }
     }
@@ -112,7 +104,6 @@ function Setting(context) {
         if (global == true) {
             canAutoSortUI.setState(configs.canAutoSort)
             canSortPageUI.setState(configs.canSortPage)
-            canRefreshImportUI.setState(configs.canRefreshImport)
             canRestoreSymbolUI.setState(configs.canRestoreSymbol)
         }
     }
@@ -133,7 +124,7 @@ function Setting(context) {
             exportPathUI = group.AddTextField(63, 0, 234, 3)
         })
         window.AddGroup(24, group => {
-            group.AddLabel(0, 4, 60, "排序设置")
+            group.AddLabel(0, 4, 60, "整理设置")
             group.AddLabel(60, 4, 30, "列数")
             columnUI = group.AddTextField(94, 0, 40)
             group.AddLabel(141, 4, 30, "间距")
@@ -142,16 +133,15 @@ function Setting(context) {
             groupSpaceUI = group.AddTextField(257, 0, 40)
         })
         window.AddLabel()
-        window.AddLabel("全局设置")
-        window.AddLabel("与其他文件通用的设置", 0.6)
+        window.AddLabel("程序设置")
+        window.AddLabel("所有文档通用的设置", 0.6)
         window.AddGroup((16 + 8) * 2 - 8, group => {
             group.AddGroup(0, 0, 150, subGroup => {
-                canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "排序页面列表", false)
-                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "保存时排序当前页面", false)
+                canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "整理页面列表", false)
+                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "保存时整理当前页面", false)
             })
             group.AddGroup(150, 0, 150, subGroup => {
-                canRefreshImportUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "排序时刷新导入的内容", false)
-                canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "排序时还原符号名称", false)
+                canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "整理时还原符号名称", false)
             })
         })
 

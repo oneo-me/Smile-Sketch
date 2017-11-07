@@ -9,10 +9,10 @@ function About(context) {
         window.AddLabel("如有建议或疑问请点击反馈，新版请前往官网下载")
     }).Show()) {
         case "官网":
-            openUrl("http://github.com/1217950746/Smile-Sketch")
+            openUrl("https://github.com/1217950746/Smile-Sketch/blob/master/README.md")
             break
         case "反馈":
-            openUrl("https://github.com/1217950746/Smile-Sketch/issues")
+            openUrl("https://github.com/1217950746/Smile-Sketch/issues/new")
             break
     }
 }

@@ -3,6 +3,9 @@ var Path = {
     // 导入和导出的入口路径
     GetPath: (document, path) => {
         var root = document.fileURL().path().stringByDeletingLastPathComponent()
+        if (root.indexOf(Path.Join(NSHomeDirectory(), "Library")) == 0) {
+            root = Path.Join(NSHomeDirectory(), "Desktop")
+        }
         return Path.Join(root, path)
     },
     GetContent: (context, path) => {
