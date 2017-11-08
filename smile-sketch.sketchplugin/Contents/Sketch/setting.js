@@ -4,12 +4,14 @@
 
 function GetConfigs(context, page) {
     var canAutoSort = Configs.Get("canAutoSort", true) == true
+    var canAutoImport = Configs.Get("canAutoImport", false) == true
     var canSortPage = Configs.Get("canSortPage", false) == true
     var canRestoreSymbol = Configs.Get("canRestoreSymbol", true) == true
 
     if (page == null) {
         return {
             canAutoSort: canAutoSort,
+            canAutoImport: canAutoImport,
             canSortPage: canSortPage,
             canRestoreSymbol: canRestoreSymbol,
         }
@@ -27,6 +29,7 @@ function GetConfigs(context, page) {
         groupSpace: groupSpace,
 
         canAutoSort: canAutoSort,
+        canAutoImport: canAutoImport,
         canSortPage: canSortPage,
         canRestoreSymbol: canRestoreSymbol,
     }
@@ -62,6 +65,7 @@ function Setting(context) {
     var groupSpaceUI
 
     var canAutoSortUI
+    var canAutoImportUI
     var canSortPageUI
     var canRestoreSymbolUI
 
@@ -88,6 +92,7 @@ function Setting(context) {
 
         if (global == true) {
             Configs.Set("canAutoSort", canAutoSortUI.state() == true)
+            Configs.Set("canAutoImport", canAutoImportUI.state() == true)
             Configs.Set("canSortPage", canSortPageUI.state() == true)
             Configs.Set("canRestoreSymbol", canRestoreSymbolUI.state() == true)
         }
@@ -103,8 +108,21 @@ function Setting(context) {
 
         if (global == true) {
             canAutoSortUI.setState(configs.canAutoSort)
+            canAutoImportUI.setState(configs.canAutoImport)
             canSortPageUI.setState(configs.canSortPage)
             canRestoreSymbolUI.setState(configs.canRestoreSymbol)
+        }
+
+        stateChanged()
+    }
+
+    function stateChanged() {
+        if (canAutoSortUI.state() == true) {
+            canAutoImportUI.setEnabled(false)
+            canAutoImportUI.setState(NSOffState)
+        } else {
+            canAutoImportUI.setEnabled(true)
+            canAutoImportUI.setState(canAutoImportUI.state())
         }
     }
 
@@ -137,11 +155,14 @@ function Setting(context) {
         window.AddLabel("所有文档通用的设置", 0.6)
         window.AddGroup((16 + 8) * 2 - 8, group => {
             group.AddGroup(0, 0, 150, subGroup => {
-                canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "整理页面列表", false)
-                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "保存时整理当前页面", false)
+                canAutoImportUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "保存时刷新当前页面", false)
+                canAutoSortUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "保存时整理当前页面", false, () => {
+                    stateChanged()
+                })
             })
             group.AddGroup(150, 0, 150, subGroup => {
                 canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "整理时还原符号名称", false)
+                canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "整理时排序页面列表", false)
             })
         })
 

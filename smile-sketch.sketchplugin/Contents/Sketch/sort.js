@@ -133,9 +133,6 @@ function sortPage(context, document, page) {
             }
         }
     }
-
-    // 刷新导入的资源
-    importPage(context, document, page)
 }
 
 function Sort(context, onSaved) {
@@ -152,9 +149,13 @@ function Sort(context, onSaved) {
     }
 
     if (onSaved) {
+        if (Configs.Get("canAutoImport", false) == false) {
+            importPage(context, document, currentPage)
+        }
         sortPage(context, document, currentPage)
     } else {
         document.pages().forEach(page => {
+            importPage(context, document, page)
             sortPage(context, document, page)
         })
     }

@@ -14,18 +14,23 @@ var ui = {
         field.setStringValue(text || "")
         return field
     },
-    Checkbox: (title, state, x, y, w, h) => {
+    Checkbox: (title, state, action, x, y, w, h) => {
         var checkbox = NSButton.alloc().initWithFrame(NSMakeRect(x || 0, y || 0, w || 300, h || 16))
         checkbox.setButtonType(NSSwitchButton)
         checkbox.setTitle(title || "")
         checkbox.setState(state ? NSOnState : NSOffState)
+        if (action != null) {
+            checkbox.setCOSJSTargetFunction(action)
+        }
         return checkbox
     },
     ComboBox: (items, index, action, x, y, w, h) => {
         var comboBox = NSPopUpButton.alloc().initWithFrame(NSMakeRect(x || 0, y || 0, w || 300, h || 24))
         comboBox.addItemsWithTitles(items || [])
         comboBox.selectItemAtIndex(index || 0)
-        comboBox.setCOSJSTargetFunction(action)
+        if (action != null) {
+            comboBox.setCOSJSTargetFunction(action)
+        }
         return comboBox
     }
 }
@@ -51,12 +56,12 @@ function Group(action, x, y, w, h) {
         this.Add(f)
         return f
     }
-    this.AddCheckbox = (x, y, w, title, state) => {
-        var f = ui.Checkbox(title, state, x, y, w)
+    this.AddCheckbox = (x, y, w, title, state, action) => {
+        var f = ui.Checkbox(title, state, action, x, y, w)
         this.Add(f)
         return f
     }
-    this.AddComboBox = (x, y, w, items, index, action) => {
+    this.AddComboBox = (x, y, w, items, index, action, ) => {
         var f = ui.ComboBox(items, index, action, x, y, w)
         this.Add(f)
         return f
@@ -102,8 +107,8 @@ function Window(title, info, buttons, action) {
         this.Add(f)
         return f
     }
-    this.AddCheckbox = (title, state) => {
-        var f = ui.Checkbox(title, state)
+    this.AddCheckbox = (title, state, action) => {
+        var f = ui.Checkbox(title, state, action)
         this.Add(f)
         return f
     }

@@ -97,3 +97,9 @@ function importPage(context, document, page) {
         importLayers(context, document, page.children())
     }
 }
+
+function Import(context) {
+    var document = context.document || context.actionContext.document
+    var currentPage = document.currentPage()
+    importPage(context, document, currentPage)
+}
