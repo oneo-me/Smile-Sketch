@@ -61,7 +61,7 @@ function Group(action, x, y, w, h) {
         this.Add(f)
         return f
     }
-    this.AddComboBox = (x, y, w, items, index, action, ) => {
+    this.AddComboBox = (x, y, w, items, index, action) => {
         var f = ui.ComboBox(items, index, action, x, y, w)
         this.Add(f)
         return f
