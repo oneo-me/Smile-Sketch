@@ -54,7 +54,6 @@ function exportSlice(document, exportPath, layer, format) {
             slice.backgroundColor = layer.backgroundColor()
         }
     } else {
-        slice.shouldTrim = true
         slice.configureForLayer(MSImmutableLayerAncestry.ancestryWithMSLayer(layer))
     }
 
