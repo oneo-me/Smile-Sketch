@@ -1,6 +1,5 @@
 @import "utils/ui.js"
 @import "utils/configs.js"
-@import "sort.js"
 
 function GetConfigs(context, page) {
     var canAutoSort = Configs.Get("canAutoSort", true) == true
@@ -169,6 +168,5 @@ function Setting(context) {
         Load(true)
     }).Show() == "确定") {
         Save(true)
-        Sort(context, true)
     }
 }
