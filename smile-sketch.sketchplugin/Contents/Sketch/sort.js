@@ -69,7 +69,9 @@ function sortPage(context, document, page) {
         }
         return 0
     })
-    document.refreshAfterArtboardDeletion()
+    if (MSApplicationMetadata.metadata().appVersion < 48) {
+        document.refreshAfterArtboardDeletion()
+    }
 
     // 画板排序
     var group = ""
