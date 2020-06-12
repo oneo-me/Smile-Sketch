@@ -13,7 +13,6 @@ function sortPage(context, document, page) {
     var canRestoreSymbol = Configs.Get("canRestoreSymbol", true) == true
     var maxColumn = PageConfigs.Get(context, page, "column", 10)
     var space = PageConfigs.Get(context, page, "space", 50)
-    var groupSpace = PageConfigs.Get(context, page, "groupSpace", 300)
 
     // 修复位置
     var minOffset = [0, 0]
@@ -94,7 +93,7 @@ function sortPage(context, document, page) {
         }
     }
     if (startTop > 0) {
-        startTop += groupSpace
+        startTop += space
     }
 
     // 开始排序
@@ -109,7 +108,7 @@ function sortPage(context, document, page) {
             }
             if (layerGroup != group) {
                 column = 0
-                top += height + groupSpace
+                top += height + space
                 left = 0
                 height = 0
             }

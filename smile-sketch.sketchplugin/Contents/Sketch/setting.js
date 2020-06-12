@@ -4,14 +4,12 @@
 function GetConfigs(context, page) {
     var canAutoSort = Configs.Get("canAutoSort", true) == true
     var canAutoImport = Configs.Get("canAutoImport", false) == true
-    var canSortPage = Configs.Get("canSortPage", false) == true
     var canRestoreSymbol = Configs.Get("canRestoreSymbol", true) == true
 
     if (page == null) {
         return {
             canAutoSort: canAutoSort,
             canAutoImport: canAutoImport,
-            canSortPage: canSortPage,
             canRestoreSymbol: canRestoreSymbol,
         }
     }
@@ -19,17 +17,14 @@ function GetConfigs(context, page) {
     var exportPath = PageConfigs.Get(context, page, "exportPath", "")
     var column = PageConfigs.Get(context, page, "column", 10)
     var space = PageConfigs.Get(context, page, "space", 50)
-    var groupSpace = PageConfigs.Get(context, page, "groupSpace", 300)
 
     return {
         exportPath: exportPath,
         column: column,
         space: space,
-        groupSpace: groupSpace,
 
         canAutoSort: canAutoSort,
         canAutoImport: canAutoImport,
-        canSortPage: canSortPage,
         canRestoreSymbol: canRestoreSymbol,
     }
 }
@@ -61,11 +56,9 @@ function Setting(context) {
     var exportPathUI
     var columnUI
     var spaceUI
-    var groupSpaceUI
 
     var canAutoSortUI
     var canAutoImportUI
-    var canSortPageUI
     var canRestoreSymbolUI
 
     function Save(global) {
@@ -73,7 +66,6 @@ function Setting(context) {
         // 修正值
         var columnNum = Number(columnUI.stringValue().replace(",", ""))
         var spaceNum = Number(spaceUI.stringValue().replace(",", ""))
-        var groupSpaceNum = Number(groupSpaceUI.stringValue().replace(",", ""))
 
         // 页面名称增加导出路径显示
         var exportPath = exportPathUI.stringValue()
@@ -87,12 +79,10 @@ function Setting(context) {
         // 限制最大值为999
         PageConfigs.Set(context, pages[pageIndex], "column", columnNum > 999 ? 999 : columnNum)
         PageConfigs.Set(context, pages[pageIndex], "space", spaceNum > 999 ? 999 : spaceNum)
-        PageConfigs.Set(context, pages[pageIndex], "groupSpace", groupSpaceNum > 999 ? 999 : groupSpaceNum)
 
         if (global == true) {
             Configs.Set("canAutoSort", canAutoSortUI.state() == true)
             Configs.Set("canAutoImport", canAutoImportUI.state() == true)
-            Configs.Set("canSortPage", canSortPageUI.state() == true)
             Configs.Set("canRestoreSymbol", canRestoreSymbolUI.state() == true)
         }
     }
@@ -103,12 +93,10 @@ function Setting(context) {
         exportPathUI.setStringValue(configs.exportPath)
         columnUI.setStringValue(configs.column)
         spaceUI.setStringValue(configs.space)
-        groupSpaceUI.setStringValue(configs.groupSpace)
 
         if (global == true) {
             canAutoSortUI.setState(configs.canAutoSort)
             canAutoImportUI.setState(configs.canAutoImport)
-            canSortPageUI.setState(configs.canSortPage)
             canRestoreSymbolUI.setState(configs.canRestoreSymbol)
         }
 
@@ -146,8 +134,6 @@ function Setting(context) {
             columnUI = group.AddTextField(94, 0, 40)
             group.AddLabel(141, 4, 30, "间距")
             spaceUI = group.AddTextField(175, 0, 40)
-            group.AddLabel(223, 4, 30, "组距")
-            groupSpaceUI = group.AddTextField(257, 0, 40)
         })
         window.AddLabel()
         window.AddLabel("程序设置")
@@ -161,7 +147,6 @@ function Setting(context) {
             })
             group.AddGroup(150, 0, 150, subGroup => {
                 canRestoreSymbolUI = subGroup.AddCheckbox(0, (16 + 8) * 1, 150, "整理时还原符号名称", false)
-                canSortPageUI = subGroup.AddCheckbox(0, (16 + 8) * 0, 150, "整理时排序页面列表", false)
             })
         })
 
