@@ -1,0 +1,41 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+    "icon": "icon.png",
+    "commands": [
+        {
+            "script": "./saved-action-command.js",
+            "handlers": {
+                "actions": {
+                    "DocumentSaved": "DocumentSaved"
+                }
+            }
+        },
+        {
+            "name": "全部导出",
+            "identifier": "smile-sketch.export-command-identifier",
+            "shortcut": "ctrl shift e",
+            "script": "./export-command.js"
+        },
+        {
+            "name": "设置",
+            "identifier": "smile-sketch.setting-command-identifier",
+            "shortcut": "ctrl shift x",
+            "script": "./setting-command.js"
+        },
+        {
+            "name": "关于",
+            "identifier": "smile-sketch.about-command-identifier",
+            "shortcut": "ctrl shift a",
+            "script": "./about-command.js"
+        }
+    ],
+    "menu": {
+        "title": "Smile Sketch",
+        "items": [
+            "smile-sketch.export-command-identifier",
+            "-",
+            "smile-sketch.setting-command-identifier",
+            "smile-sketch.about-command-identifier"
+        ]
+    }
+}

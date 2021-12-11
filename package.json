@@ -1,0 +1,25 @@
+{
+    "name": "smile-sketch",
+    "description": "",
+    "version": "2.0.0",
+    "engines": {
+        "sketch": ">=49.0"
+    },
+    "skpm": {
+        "name": "smile-sketch",
+        "manifest": "src/manifest.json",
+        "main": "smile-sketch.sketchplugin",
+        "assets": [
+            "assets/**/*"
+        ],
+        "sketch-assets-file": "sketch-assets/icons.sketch"
+    },
+    "scripts": {
+        "build": "skpm-build && skpm-link",
+        "start": "skpm-build --watch"
+    },
+    "devDependencies": {
+        "@skpm/builder": "^0.8.0"
+    },
+    "author": "ONEO <oneo.me@outlook.com>"
+}
