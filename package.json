@@ -6,7 +6,7 @@
         "sketch": ">=49.0"
     },
     "skpm": {
-        "name": "smile-sketch",
+        "name": "Smile Sketch",
         "manifest": "src/manifest.json",
         "main": "smile-sketch.sketchplugin",
         "assets": [

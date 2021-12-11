@@ -17,12 +17,6 @@
             "script": "./export-command.js"
         },
         {
-            "name": "设置",
-            "identifier": "smile-sketch.setting-command-identifier",
-            "shortcut": "ctrl shift x",
-            "script": "./setting-command.js"
-        },
-        {
             "name": "关于",
             "identifier": "smile-sketch.about-command-identifier",
             "shortcut": "ctrl shift a",
@@ -34,7 +28,6 @@
         "items": [
             "smile-sketch.export-command-identifier",
             "-",
-            "smile-sketch.setting-command-identifier",
             "smile-sketch.about-command-identifier"
         ]
     }
