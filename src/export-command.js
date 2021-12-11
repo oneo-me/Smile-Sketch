@@ -14,7 +14,8 @@ function exportPage(document, root, page) {
     var pageName = page.name();
     var index = pageName.indexOf(" | ")
     var name = index == -1 ? pageName : pageName.substring(0, index)
-    var path = root + "/" + (index == -1 ? "" : pageName.substring(index + 3))
+    var pagePath = index == -1 ? "" : pageName.substring(index + 3)
+    var path = pagePath[0] == "~" ? pagePath : root + "/" + pagePath
 
     console.log("导出: " + name + "(" + path + ")")
 
