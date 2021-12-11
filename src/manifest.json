@@ -3,10 +3,10 @@
     "icon": "icon.png",
     "commands": [
         {
-            "script": "./saved-action-command.js",
+            "script": "./actions-command.js",
             "handlers": {
                 "actions": {
-                    "DocumentSaved": "DocumentSaved"
+                    "DocumentSaved": "onDocumentSaved"
                 }
             }
         },
