@@ -83,7 +83,7 @@ function exportCommandLayer(layer, path) {
 
     if (layer.className() == "MSTextLayer") {
         if (command == "export") {
-            console.log(" - 文本：" + name)
+            console.log(" - 文本: " + name)
 
             var file = path + "/" + commandArg
             var folder = NSString.stringWithString(file).stringByDeletingLastPathComponent()
