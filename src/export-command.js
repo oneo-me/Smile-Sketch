@@ -1,17 +1,16 @@
 export default function (context) {
-    var document = context.document;
+    var document = context.document
     var root = document.fileURL().path().stringByDeletingLastPathComponent()
     var currentPage = document.currentPage()
     document.pages().forEach(page => {
         document.setCurrentPage(page)
         exportPage(document, root, page)
-    });
+    })
     document.setCurrentPage(currentPage)
 }
 
-
 function exportPage(document, root, page) {
-    var pageName = page.name();
+    var pageName = page.name()
     var index = pageName.indexOf(" | ")
     var name = index == -1 ? pageName : pageName.substring(0, index)
     var pagePath = index == -1 ? "" : pageName.substring(index + 3)
@@ -37,7 +36,7 @@ function exportPage(document, root, page) {
                     name = name + format.name()
                 }
             }
-            name = name + "." + format.fileFormat();
+            name = name + "." + format.fileFormat()
 
             console.log(" - " + name)
 

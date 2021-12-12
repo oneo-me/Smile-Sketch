@@ -1,3 +1,6 @@
-export function onDocumentSaved() {
-    console.log("onDocumentSaved")
+import { RestoreSymbolName } from "./symbol-action"
+
+export function onDocumentSaved(context) {
+    var actionContext = context.actionContext
+    RestoreSymbolName(actionContext)
 }

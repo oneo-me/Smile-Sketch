@@ -1,6 +1,6 @@
 export default function (context) {
     var window = COSAlertWindow.new()
-    window.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed("icon.png").path()));
+    window.setIcon(NSImage.alloc().initByReferencingFile(context.plugin.urlForResourceNamed("icon.png").path()))
     window.setMessageText(context.plugin.name())
     window.setInformativeText(context.plugin.version() + "\n\n" + context.plugin.pluginDescription())
     window.addButtonWithTitle("确定")
