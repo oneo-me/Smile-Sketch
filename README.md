@@ -1,4 +1,4 @@
-![](card.png)
+![](card_m.png)
 
 > 更加快捷的使用 Sketch 的一些功能
 
