@@ -26,6 +26,8 @@ export function ImportLayer(actionContext) {
             if (command == "import") {
                 if (layer.className() == "MSTextLayer") {
                     ImportText(layer, path, file)
+                } else if (layer.className() == "MSBitmapLayer") {
+                    ImportImage(document, layer, path, file)
                 }
             }
         })
@@ -37,5 +39,7 @@ function ImportText(layer, name, file) {
     layer.stringValue = NSString.stringWithContentsOfFile_encoding_error(file, NSUTF8StringEncoding, null)
 }
 
-function ImportImage(layer, name, file) {
+function ImportImage(document, layer, name, file) {
+    console.log(" - 图片: " + name)
+    document.actionsController().actionForID("MSReplaceImageAction").applyImage_tolayer(NSImage.alloc().initWithContentsOfFile(file), layer)
 }
