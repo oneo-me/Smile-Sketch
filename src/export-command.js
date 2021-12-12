@@ -14,9 +14,9 @@ function exportPage(document, root, page) {
     var index = pageName.indexOf(" | ")
     var name = index == -1 ? pageName : pageName.substring(0, index)
     var pagePath = index == -1 ? "" : pageName.substring(index + 3)
-    var path = pagePath[0] == "~" ? pagePath : root + "/" + pagePath
+    var path = pagePath[0] == "~" ? pagePath : root + (pagePath == "" ? "" : "/" + pagePath)
 
-    console.log("导出: " + name + "(" + path + ")")
+    console.log("导出: " + name + " (" + path + ")")
 
     page.children().forEach(layer => {
         if (layer == page)
@@ -38,7 +38,7 @@ function exportPage(document, root, page) {
             }
             name = name + "." + format.fileFormat()
 
-            console.log(" - " + name)
+            console.log(" - 图片：" + name)
 
             // 导出
             exportFormat(document, layer, options, format, path + "/" + name)
