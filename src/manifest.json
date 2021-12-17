@@ -3,6 +3,7 @@
     "icon": "icon.png",
     "commands": [
         {
+            "identifier": "smile-sketch.actions-command-identifier",
             "script": "./actions-command.js",
             "handlers": {
                 "actions": {
