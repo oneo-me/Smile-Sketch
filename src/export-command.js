@@ -1,3 +1,5 @@
+import NameInfo from "./utils/name-info"
+
 export default function (context) {
     var document = context.document
     var root = document.fileURL().path().stringByDeletingLastPathComponent()
@@ -10,11 +12,9 @@ export default function (context) {
 }
 
 function exportPage(document, root, page) {
-    var pageName = page.name()
-    var index = pageName.indexOf(" | ")
-    var name = index == -1 ? pageName : pageName.substring(0, index)
-    var pagePath = index == -1 ? "" : pageName.substring(index + 3)
-    var path = pagePath[0] == "~" ? pagePath : root + (pagePath == "" ? "" : "/" + pagePath)
+    var { name, args } = NameInfo(page.name())
+    var path = args[0] == "~" ? args : root + (args == "" ? "" : "/" + args)
+
 
     console.log("导出: " + name + " (" + path + ")")
 
@@ -43,7 +43,7 @@ function exportPage(document, root, page) {
             console.log(" - 图片：" + name)
 
             // 导出
-            exportFormat(document, layer, options, format, path + "/" + name)
+            exportFormat(document, layer, options, format, `${path}/${name}`)
         })
     })
 }
@@ -70,22 +70,13 @@ function exportFormat(document, layer, options, format, file) {
 }
 
 function exportCommandLayer(layer, path) {
-    var layerName = layer.name()
-    var index = layerName.indexOf(" | ")
-    var name = index == -1 ? layerName : layerName.substring(0, index)
-    var args = index == -1 ? "" : layerName.substring(index + 3)
-    var commandIndex = args.indexOf(": ")
-    if (commandIndex == -1)
-        return
-
-    var command = args.substring(0, commandIndex)
-    var commandArg = args.substring(commandIndex + 2)
+    var { name, command, commandArg } = NameInfo(layer.name())
 
     if (layer.className() == "MSTextLayer") {
         if (command == "export") {
             console.log(" - 文本: " + name)
 
-            var file = path + "/" + commandArg
+            var file = `${path}/${commandArg}`
             var folder = NSString.stringWithString(file).stringByDeletingLastPathComponent()
             NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error(folder, true, nil, nil)
             layer.stringValue().writeToFile_atomically_encoding_error(file, true, NSUTF8StringEncoding, null)
