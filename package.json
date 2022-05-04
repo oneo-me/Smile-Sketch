@@ -19,7 +19,8 @@
         "build": "skpm-build && skpm-link"
     },
     "devDependencies": {
-        "@skpm/builder": "^0.8.0"
+        "@skpm/builder": "^0.8.0",
+        "glob-parent": ">=6.0.2"
     },
     "author": "ONEO <oneo.me@outlook.com>"
 }
