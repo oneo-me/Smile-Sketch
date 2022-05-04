@@ -15,8 +15,8 @@
         "sketch-assets-file": "sketch-assets/icons.sketch"
     },
     "scripts": {
-        "build": "skpm-build && skpm-link",
-        "start": "skpm-build --watch"
+        "dev": "skpm-build --watch",
+        "build": "skpm-build && skpm-link"
     },
     "devDependencies": {
         "@skpm/builder": "^0.8.0"
