@@ -2,82 +2,67 @@ import { NameParser } from "./utils/nameParser";
 import { PathParser } from "./utils/pathParser";
 
 export default function (context) {
-  var document = context.document;
-  var root = document.fileURL().path().stringByDeletingLastPathComponent();
-  var currentPage = document.currentPage();
+  const document = context.document;
+  const root = document.fileURL().path().stringByDeletingLastPathComponent();
+  const currentPage = document.currentPage();
   document.pages().forEach((page) => {
     document.setCurrentPage(page);
-    exportPage(document, root, page);
-  });
-  document.setCurrentPage(currentPage);
-}
 
-function exportPage(document, root, page) {
-  var { name, args } = NameInfo(page.name());
-  var path = args[0] == "~" ? args : root + (args == "" ? "" : "/" + args);
+    const pageName = new NameParser(page.name());
+    console.log("进入页面：" + pageName.name + "，参数：" + pageName.args);
 
-  console.log("导出: " + name + " (" + path + ")");
+    page.children().forEach((layer) => {
+      const layerType = layer.className() + "";
+      const layerName = new NameParser(layer.name());
 
-  page.children().forEach((layer) => {
-    if (layer == page) return;
+      // 导出命令
+      if (layerName.command === "export") {
+        // 目前仅支持文本图层导出
+        if (layerType === "MSTextLayer") {
+          const file = PathParser.getPath(root, pageName.args, layerName.commandArgs);
+          console.log("    处理图层：" + layerName.name + "，导出文本：" + file);
 
-    exportCommandLayer(layer, path);
-
-    var options = layer.exportOptions();
-    var formats = options.exportFormats();
-    if (formats.count() <= 0) return;
-
-    formats.forEach((format) => {
-      var name = layer.name();
-      if (format.name() != null) {
-        if (format.namingScheme()) {
-          name = format.name() + name;
-        } else {
-          name = name + format.name();
+          var folder = NSString.stringWithString(file).stringByDeletingLastPathComponent();
+          NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error(folder, true, nil, nil);
+          layer.stringValue().writeToFile_atomically_encoding_error(file, true, NSUTF8StringEncoding, null);
         }
       }
-      name = name + "." + format.fileFormat();
 
-      console.log(" - 图片：" + name);
+      // 检查导出选项
+      var options = layer.exportOptions();
+      options.exportFormats().forEach((format) => {
+        const formatName = "." + format.fileFormat();
+        let fileName = layerName.name;
+        if (format.name() != null) {
+          if (format.namingScheme()) {
+            fileName = format.name() + fileName;
+          } else {
+            fileName = fileName + format.name();
+          }
+        }
+        const file = PathParser.getPath(root, pageName.args, fileName + formatName);
+        console.log("    处理图层：" + layerName.name + "，导出图片：" + file);
 
-      // 导出
-      exportFormat(document, layer, options, format, `${path}/${name}`);
+        var slice = MSExportRequest.new();
+        slice.rect = layer.rect();
+        slice.scale = format.scale();
+        slice.format = format.fileFormat();
+        slice.saveForWeb = true;
+
+        // 处理切片
+        if (layer.className() == "MSSliceLayer") {
+          // 修剪透明像素
+          slice.shouldTrim = !layer.hasBackgroundColor() && options.shouldTrim();
+          // 背景色
+          if (layer.hasBackgroundColor()) {
+            var hexColor = layer.backgroundColor().NSColorWithColorSpace(nil).hexValue();
+            slice.setBackgroundColor(MSImmutableColor.colorWithSVGString("#" + hexColor));
+          }
+        }
+
+        document.saveArtboardOrSlice_toFile(slice, file);
+      });
     });
   });
-}
-
-function exportFormat(document, layer, options, format, file) {
-  var slice = MSExportRequest.new();
-  slice.rect = layer.absoluteRect().rect();
-  slice.scale = format.scale();
-  slice.format = format.fileFormat();
-  slice.saveForWeb = true;
-
-  // 切片
-  if (layer.className() == "MSSliceLayer") {
-    // 修剪透明像素
-    slice.shouldTrim = !layer.hasBackgroundColor() && options.shouldTrim();
-    // 背景色
-    if (layer.hasBackgroundColor()) {
-      var hexColor = layer.backgroundColor().NSColorWithColorSpace(nil).hexValue();
-      slice.setBackgroundColor(MSImmutableColor.colorWithSVGString("#" + hexColor));
-    }
-  }
-
-  document.saveArtboardOrSlice_toFile(slice, file);
-}
-
-function exportCommandLayer(layer, path) {
-  var { name, command, commandArg } = NameInfo(layer.name());
-
-  if (layer.className() == "MSTextLayer") {
-    if (command == "export") {
-      console.log(" - 文本: " + name);
-
-      var file = `${path}/${commandArg}`;
-      var folder = NSString.stringWithString(file).stringByDeletingLastPathComponent();
-      NSFileManager.defaultManager().createDirectoryAtPath_withIntermediateDirectories_attributes_error(folder, true, nil, nil);
-      layer.stringValue().writeToFile_atomically_encoding_error(file, true, NSUTF8StringEncoding, null);
-    }
-  }
+  document.setCurrentPage(currentPage);
 }

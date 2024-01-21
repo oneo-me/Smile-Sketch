@@ -1,47 +1,61 @@
-![](card_m.png)
+![](card.png)
 
 > 更加快捷的使用 Sketch 的一些功能
 
 ## 功能列表
 
-### 一键导出
+| 功能                         | 模块         | 说明                                                                   |
+| ---------------------------- | ------------ | ---------------------------------------------------------------------- |
+| 运行动作（Ctrl + Shift + R） | 导入文本     | 文本图层命名以 `import: filePath` 结尾，即可导入 `filePath` 的文本内容 |
+|                              | 导入图片     | 文本图层命名以 `import: filePath` 结尾，即可导入 `filePath` 的图片内容 |
+|                              | 还原符号命名 | 符号组件图层还原为组件库的命名                                         |
+| 全部导出（Ctrl + Shift + E） | 导出文本     | 文本图层命名以 `export: filePath`结尾，即可导出文本到 `filePath` 路径  |
+|                              | 导出图层     | 按照导出选项输出图层                                                   |
 
-> 按下快捷键 `ctrl shift e` 后，插件自动扫描全部页面，直接导出全部可用资源到设计文件所在目录下
+## 使用帮助（重要）
 
-**自定义导出目录**
+### filePath 书写方法
 
-如：
+插件通过多个维度确定最终所使用的路径，当前图层所在**文件**、**页面**、**图层命名**、**导出选项**
 
-- Test.sketch
-  - Page 1
-  - Page 2
-  - Page 3
+### 例子
 
-自定义路径方法：在页面名称后添加 ` | Path` 来实现路径修改
+假定一个文件环境，（注意 `~` 表示当前用户目录）
 
-Path 的几种写法
+- 文件路径 ~/Desktop/files/test.sketch
+- 页面：
+  - Page1
+  - Page2 | testFolder
+  - Page3 | ~/Documents
+- 图层：
+  - TextLayer1 | import: import.txt
+  - Image1 |import: import.png
+  - TextLayer2 | export: ~/Desktop/text.txt
+  - Layer2
 
-- Page 1
-  - 导出在设计稿同目录下
-- Page 1 | 导出
-  - 导出在设计稿同目录下的导出目录中
-- Page 1 | ..
-  - 导出在设计稿的上级目录下
-- Page 1 | ~/Desktop
-  - 导出在当前用户的桌面下
+接下来我将逐个介绍，每个图层在不同页面下的导入、导出行为
 
-### 还原符号名称
+Layout2 假定有两个导出选项（1x, @2x）
 
-> 保存时自动还原名称
+Layout2 这种普通图层、或者切片图层，不支持 | 结尾自定义路径
 
-### 文本导出
+- Page1
+  - TextLayer1 将会导出路径 ~/Desktop/files/import.txt 中的内容到图层文本内容
+  - Image1 将会导出路径 ~/Desktop/files/import.png 中的内容到图层
+  - TextLayer2 将会导出图层文本内容到路径 ~/Desktop/text.txt
+  - Layer2 1x 将会导出图层到路径 ~/Desktop/files/Layer2.png
+  - Layer2 2x 将会导出图层到路径 ~/Desktop/files/Layer2@2x.png
 
-在文本图层名称之后添加 ` | export: Path` 即可支持导出到对应路径
+- Page2
+  - TextLayer1 将会导出路径 ~/Desktop/files/testFolder/import.txt 中的内容到图层文本内容
+  - Image1 将会导出路径 ~/Desktop/files/testFolder/import.png 中的内容到图层
+  - TextLayer2 将会导出图层文本内容到路径 ~/Desktop/text.txt
+  - Layer2 1x 将会导出图层到路径 ~/Desktop/files/testFolder/Layer2.png
+  - Layer2 2x 将会导出图层到路径 ~/Desktop/files/testFolder/Layer2@2x.png
 
-### 文本导入
-
-在文本图层名称之后添加 ` | import: Path` 即可支持导出到对应路径
-
-### 图片导入
-
-在文本图层名称之后添加 ` | import: Path` 即可支持导出到对应路径
+- Page3
+  - TextLayer1 将会导出路径 ~/Documents/testFolder/import.txt 中的内容到图层文本内容
+  - Image1 将会导出路径 ~/Documents/testFolder/import.png 中的内容到图层
+  - TextLayer2 将会导出图层文本内容到路径 ~/Desktop/text.txt
+  - Layer2 1x 将会导出图层到路径 ~/Documents/testFolder/Layer2.png
+  - Layer2 2x 将会导出图层到路径 ~/Documents/testFolder/Layer2@2x.png

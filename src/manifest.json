@@ -9,6 +9,12 @@
             "script": "./actions.js"
         },
         {
+            "name": "全部导出",
+            "identifier": "smile-sketch.export",
+            "shortcut": "ctrl shift e",
+            "script": "./export.js"
+        },
+        {
             "name": "关于",
             "identifier": "smile-sketch.about",
             "shortcut": "ctrl shift a",
@@ -19,6 +25,8 @@
         "title": "Smile Sketch",
         "items": [
             "smile-sketch.actions",
+            "smile-sketch.export",
+            "-",
             "smile-sketch.about"
         ]
     }
