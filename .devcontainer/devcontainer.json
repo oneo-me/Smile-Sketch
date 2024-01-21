@@ -1,0 +1,7 @@
+{
+    "name": "Node.js",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/git-lfs:1": {}
+    }
+}

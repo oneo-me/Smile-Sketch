@@ -3,7 +3,7 @@
     "description": "更加快捷的使用 Sketch 的一些功能",
     "version": "2.0.0",
     "engines": {
-        "sketch": ">=80.0"
+        "sketch": ">=99.0"
     },
     "skpm": {
         "name": "Smile Sketch",
@@ -16,11 +16,10 @@
     },
     "scripts": {
         "dev": "skpm-build --watch",
-        "build": "skpm-build && skpm-link"
+        "build": "skpm-build"
     },
     "devDependencies": {
-        "@skpm/builder": "^0.8.0",
-        "glob-parent": ">=6.0.2"
+        "@skpm/builder": "^0.8.0"
     },
     "author": "ONEO <oneo.me@outlook.com>"
 }
