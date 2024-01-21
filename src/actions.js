@@ -32,15 +32,18 @@ export default function (context) {
 
       // 检测是否为文本图层
       if (layerType === "MSTextLayer") {
-        console.log("    处理图层：" + layerName.name + "，导入文本：" + layerName.commandArgs);
-        layer.stringValue = NSString.stringWithContentsOfFile_encoding_error(file, NSUTF8StringEncoding, null);
+        console.log("    处理图层：" + layerName.name + "，导入文本：" + file);
+        const nsString = NSString.stringWithContentsOfFile_encoding_error(file, NSUTF8StringEncoding, null);
+        layer.stringValue = nsString;
         return;
       }
 
       // 检测是否为图片图层
       if (layerType === "MSBitmapLayer") {
-        console.log("    处理图层：" + layerName.name + "，导入图片：" + layerName.commandArgs);
-        document.actionsController().actionForID("MSReplaceImageAction").applyImage_tolayer(NSImage.alloc().initWithContentsOfFile(file), layer);
+        console.log("    处理图层：" + layerName.name + "，导入图片：" + file);
+        const nsImage = NSImage.alloc().initByReferencingFile(file);
+        const imageData = MSImageData.alloc().initWithImage(nsImage);
+        layer.setImage(imageData);
         return;
       }
     });
