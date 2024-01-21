@@ -3,33 +3,23 @@
     "icon": "icon.png",
     "commands": [
         {
-            "identifier": "smile-sketch.actions-command-identifier",
-            "script": "./actions-command.js",
-            "handlers": {
-                "actions": {
-                    "DocumentSaved": "onDocumentSaved"
-                }
-            }
-        },
-        {
-            "name": "全部导出",
-            "identifier": "smile-sketch.export-command-identifier",
-            "shortcut": "ctrl shift e",
-            "script": "./export-command.js"
+            "name": "运行动作",
+            "identifier": "smile-sketch.actions",
+            "shortcut": "ctrl shift r",
+            "script": "./actions.js"
         },
         {
             "name": "关于",
-            "identifier": "smile-sketch.about-command-identifier",
+            "identifier": "smile-sketch.about",
             "shortcut": "ctrl shift a",
-            "script": "./about-command.js"
+            "script": "./about.js"
         }
     ],
     "menu": {
         "title": "Smile Sketch",
         "items": [
-            "smile-sketch.export-command-identifier",
-            "-",
-            "smile-sketch.about-command-identifier"
+            "smile-sketch.actions",
+            "smile-sketch.about"
         ]
     }
 }
