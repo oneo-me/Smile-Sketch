@@ -19,7 +19,7 @@ class PathParser {
 
     var result = "";
     if (pagePath.startsWith("~") || pagePath.startsWith("/")) {
-      result = pagePath;
+      result = pagePath + "/" + layerPath;
     } else if (pagePath !== "") {
       result = documentPath + "/" + pagePath + "/" + layerPath;
     } else {
